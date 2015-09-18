@@ -47,15 +47,15 @@ exports.mining = function(params, callback) {
               var data = {
                 year: params.year,
                 game: params.game
-                data.date: '',
-                data.day: '',
-                data.team1: '',
-                data.score1: '',
-                data.team2: '',
-                data.score2: '',
-                data.location: '',
-                data.time: '',
-                data.att: '',
+                date: '',
+                day: '',
+                team1: '',
+                score1: '',
+                team2: '',
+                score2: '',
+                location: '',
+                time: '',
+                att: '',
               };
 
               if (results.title === '系統錯誤') {

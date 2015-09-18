@@ -46,7 +46,7 @@ exports.mining = function(params, callback) {
             setTimeout(function() {
               var data = {
                 year: params.year,
-                game: params.game
+                game: params.game,
                 date: '',
                 day: '',
                 team1: '',
@@ -55,7 +55,7 @@ exports.mining = function(params, callback) {
                 score2: '',
                 location: '',
                 time: '',
-                att: '',
+                att: ''
               };
 
               if (results.title === '系統錯誤') {

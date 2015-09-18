@@ -1,0 +1,19 @@
+{
+  "name": "cpbl",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.4.2",
+    "cheerio": "^0.19.0",
+    "lodash": "^3.10.1",
+    "log4js": "^0.6.26",
+    "moment": "^2.10.6",
+    "phantom": "^0.7.2"
+  }
+}

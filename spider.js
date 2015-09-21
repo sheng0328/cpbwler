@@ -15,18 +15,19 @@ function miningSync(callback) {
     'records': []
   };
 
-  var year = 2015;
+  var year = 1990;
+  var lastYear = 2015
   var game = 0;
   var lastGame = 400;
 
   async.whilst(
     function () {
       //console.log('test = ' + game);
-      return game < lastGame;
+      return year < lastYear && game < lastGame;
     },
     function (callback) {
-      //console.log('perform');
       game ++;
+      //console.log('perform');
       var params = {
         year: year,
         game: game
@@ -38,7 +39,13 @@ function miningSync(callback) {
           result.records.push(data);
           callback(null, data);
         } else {
-          game = lastGame;
+          if (year < lastYear) {
+            console.log('');
+            year ++;
+            game = 0;
+          } else {
+            game = lastGame;
+          }
         }
       });
     },

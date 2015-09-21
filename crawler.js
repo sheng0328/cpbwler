@@ -4,6 +4,68 @@ var fs = require('fs');
 var _ = require('lodash');
 var moment = require('moment');
 var phantom = require('phantom');
+var curl = require('./utils/curl');
+
+exports.mining = function(params, callback) {
+  var url = 'http://www.cpbl.com.tw/game/box.aspx?gameno=01&year=' + params.year + '&game=' + params.game;
+  curl.execRequest(url, function(err, data) {
+    var result = {
+      year: params.year,
+      game: params.game,
+      date: '',
+      day: '',
+      team1: '',
+      score1: '',
+      team2: '',
+      score2: '',
+      location: '',
+      time: '',
+      att: ''
+    };
+
+    $ = cheerio.load(data.body, { ignoreWitespace: true });
+    var title = _.trim($("title").text());
+    if (title === '系統錯誤') {
+      result = null;
+    } else {
+      if (_.trim($('.main').find('p').text())) {
+        var a = $('.info01').find('td').text().split('\n');
+        var _1 = _.trim(a[1]);
+        var _3 = _.trim(a[3]);
+        var _4 = _.trim(a[4]);
+        var _6 = _.trim(a[6]);
+        var _7 = _.trim(a[7]);
+        var _9 = _.trim(a[9]);
+
+        result.date = _1.split('．')[0].replace(/ /g, '');
+        result.day = _1.split('．')[1];
+        result.team1 = _3;
+        result.score1 = _4;
+        result.team2 = _6;
+        result.score2 = _7;
+        result.location = _9;
+
+        var b = $('.main').find('p').text().split('\n');
+        var _tt = '';
+        var _time = '';
+        var _att = '';
+        for (var i = 0; i < b.length; i++) {
+          if (_.startsWith(_.trim(b[i]), 'TIME')) {
+            _tt = _.trim(b[i]);
+          }
+        }
+        var _temp = _tt.split('TIME: ')[1].split('ATT: ');
+        _time = _temp[0];
+        _att = _temp[1];
+        result.time = _time;
+        result.att = _att;
+
+        //console.log(data);
+      }
+    }
+    callback(null, result);
+  });
+}
 
 var imageName = 'cpbl.png';
 
@@ -14,7 +76,7 @@ var options = {
   }
 };
 
-exports.mining = function(params, callback) {
+exports.mining2 = function(params, callback) {
   phantom.create(options, function (ph) {
     ph.createPage(function (page) {
       var url = 'http://www.cpbl.com.tw/game/box.aspx?gameno=01&year=' + params.year + '&game=' + params.game;

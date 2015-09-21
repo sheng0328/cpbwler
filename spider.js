@@ -22,14 +22,7 @@ function miningSync(callback) {
 
   async.whilst(
     function () {
-      //console.log('test = ' + game);
-      if (year <= lastYear && game < lastGame) {
-        return true;
-      } else {
-        console.log('year = ' + year + ', game = ' + game);
-        return false;
-      }
-      //return year <= lastYear && game < lastGame;
+      return year <= lastYear && game < lastGame;
     },
     function (callback) {
       game ++;
@@ -49,6 +42,7 @@ function miningSync(callback) {
             console.log('');
             year ++;
             game = 0;
+            callback(null, data);
           } else {
             game = lastGame;
           }

@@ -3,11 +3,50 @@ var crawler = require('./crawler');
 
 async.auto({
   mining: function(callback) {
-    mining(callback);
+    miningSync(callback);
   }
 }, function(err, results) {
-  //console.log(JSON.stringify(results.mining));
+  console.log(JSON.stringify(results.mining));
 });
+
+
+function miningSync(callback) {
+  var result = {
+    'records': []
+  };
+
+  var year = 2015;
+  var game = 0;
+  var lastGame = 400;
+
+  async.whilst(
+    function () {
+      //console.log('test = ' + game);
+      return game < lastGame;
+    },
+    function (callback) {
+      //console.log('perform');
+      game ++;
+      var params = {
+        year: year,
+        game: game
+      };
+      crawler.mining(params, function(err, data) {
+        if (data) {
+          //console.log('=== ' + data.year + ', ' + data.game + ' ===');
+          console.log(JSON.stringify(data));
+          result.records.push(data);
+          callback(null, data);
+        } else {
+          game = lastGame;
+        }
+      });
+    },
+    function (err) {
+      callback(err);
+    }
+  );
+}
 
 function mining(callback) {
   var startYear = 1990;

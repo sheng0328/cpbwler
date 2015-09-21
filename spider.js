@@ -16,7 +16,7 @@ function miningSync(callback) {
   };
 
   var year = 1990;
-  var lastYear = 2015
+  var lastYear = 2015;
   var game = 0;
   var lastGame = 400;
 
